@@ -20,7 +20,8 @@ class MRE extends Backbone.View {
     events() {
         return {
             'change #select_yr' : 'sortProjects',
-            'click #show_all' : 'showAllProjects'
+            'click #show_all' : 'showAllProjects',
+            'click #toggle_archived' : 'toggleArchivedProjects'
         };
     }
 
@@ -72,7 +73,7 @@ class MRE extends Backbone.View {
 
         // When projects and topics are loaded, assign projects to each topic
         // Maybe we could use ES6 promises here
-        projs.deferred.done( function () {
+        projs.deferred.done( () => {
 
             projsView.render();
 
@@ -204,7 +205,7 @@ class MRE extends Backbone.View {
             // Now instantiate sponsor and date views
             new SponsorsView({el: '#sponsors', collection: sponsors}).render();
             new YearsView({el: '#years', collection: years}).render();
-        });
+        });        
     }
 
     updateActiveCats(type){
@@ -225,6 +226,11 @@ class MRE extends Backbone.View {
     showAllProjects(e) {
         e. preventDefault();
         Events.trigger("categories:uncheck:others", []);
+    }
+
+    toggleArchivedProjects(e) {
+        let checked = $(e.target).prop("checked");
+        Events.trigger("projects:showArchived", !checked)
     }
 
 }
