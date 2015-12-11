@@ -35,7 +35,10 @@ class ProjectView extends Backbone.View {
             startDate += startYear;
         }
 
-        if (endYear && !endMonth){
+        if (isActive) {
+            endDate += "present";
+        }
+        else if (endYear && !endMonth){
             endDate = endYear;
         }
         else if (endYear && endMonth) {
@@ -44,8 +47,6 @@ class ProjectView extends Backbone.View {
                 endDate = month + " ";
             }
             endDate += endYear;
-        } else if (isActive) {
-            endDate += "present";
         } 
 
         if (startDate){

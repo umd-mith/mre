@@ -17,6 +17,7 @@ class ProjectsView extends Backbone.View {
 
     initialize() {
         this.listenTo(Events, "projects:intersect", this.intersectProjects);
+        this.listenTo(Events, "projects:showArchived", this.showArchived);
         this.listenTo(this, "projects:sort", this.sortProjects);
     }
 
@@ -68,6 +69,14 @@ class ProjectsView extends Backbone.View {
     sortProjects(order) {
         this.$el.empty();
         this.render(order);
+    }
+
+    showArchived(show){
+        this.collection.each(function(proj){
+            if (!proj.get("active") && !show) {
+                proj.trigger("view:remove");
+            }
+        });
     }
 
     intersectProjects(activeCategories) {
